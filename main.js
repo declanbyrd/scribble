@@ -43,7 +43,7 @@ const handleMouseDown = (event) => {
 	painting = true;
 
 	context.beginPath();
-	context.arc(event.pageX, event.pageY, lineWidth / 2, 0, Math.PI * 2);
+	context.arc(event.pageX, event.pageY, lineWidth / 8, 0, Math.PI * 2);
 	context.lineWidth = lineWidth;
 	context.strokeStyle = lineColour;
 	context.stroke();
@@ -88,7 +88,7 @@ const handleTouchStart = (event) => {
 		context.arc(
 			touches[index].pageX,
 			touches[index].pageY,
-			lineWidth / 2,
+			lineWidth / 8,
 			0,
 			Math.PI * 2
 		);
