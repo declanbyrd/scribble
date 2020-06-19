@@ -43,10 +43,9 @@ const handleMouseDown = (event) => {
 	painting = true;
 
 	context.beginPath();
-	context.arc(event.pageX, event.pageY, lineWidth / 8, 0, Math.PI * 2);
-	context.lineWidth = lineWidth;
-	context.strokeStyle = lineColour;
-	context.stroke();
+	context.arc(event.pageX, event.pageY, lineWidth / 2, 0, Math.PI * 2);
+	context.fillStyle = lineColour;
+	context.fill();
 };
 
 /**
@@ -88,13 +87,12 @@ const handleTouchStart = (event) => {
 		context.arc(
 			touches[index].pageX,
 			touches[index].pageY,
-			lineWidth / 8,
+			lineWidth / 2,
 			0,
 			Math.PI * 2
 		);
-		context.lineWidth = lineWidth;
-		context.strokeStyle = lineColour;
-		context.stroke();
+		context.fillStyle = lineColour;
+		context.fill();
 	}
 };
 
@@ -134,17 +132,16 @@ const handleTouchEnd = (event) => {
 	for (let index = 0; index < touches.length; index++) {
 		const identifier = findTouch(touches[index]);
 		if (identifier >= 0) {
+			context.lineWidth = lineWidth;
+			context.strokeStyle = lineColour;
 			context.beginPath();
 			context.moveTo(
 				ongoingTouches[identifier].pageX,
 				ongoingTouches[identifier].pageY
 			);
 			context.lineTo(touches[index].pageX, touches[index].pageY);
-			context.closePath();
-			context.lineWidth = lineWidth;
-			context.strokeStyle = lineColour;
 			context.stroke();
-			ongoingTouches.splice(identifier, 1, touches[index]);
+			ongoingTouches.splice(identifier, 1);
 		}
 	}
 };
