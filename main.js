@@ -3,6 +3,7 @@ const context = canvas.getContext('2d');
 
 const ongoingTouches = [];
 const lineColour = 'black';
+const lineWidth = 4;
 let painting = false;
 
 // Only store the touch data that is needed.
@@ -42,8 +43,8 @@ const handleMouseDown = (event) => {
 	painting = true;
 
 	context.beginPath();
-	context.lineTo(event.pageX, event.pageY);
-	context.lineWidth = 4;
+	context.arc(event.pageX, event.pageY, lineWidth / 2, 0, Math.PI * 2);
+	context.lineWidth = lineWidth;
 	context.strokeStyle = lineColour;
 	context.stroke();
 };
@@ -56,7 +57,7 @@ const handleMouseMove = (event) => {
 		event.preventDefault();
 
 		context.lineTo(event.pageX, event.pageY);
-		context.lineWidth = 4;
+		context.lineWidth = lineWidth;
 		context.strokeStyle = lineColour;
 		context.stroke();
 	}
@@ -67,7 +68,7 @@ const handleMouseMove = (event) => {
  */
 const handleMouseUp = (event) => {
 	event.preventDefault();
-	context.lineWidth = 4;
+	context.lineWidth = lineWidth;
 	context.fillStyle = lineColour;
 	context.closePath();
 	painting = false;
@@ -84,8 +85,14 @@ const handleTouchStart = (event) => {
 		ongoingTouches.push(copyTouch(touches[index]));
 
 		context.beginPath();
-		context.lineTo(touches[index].pageX, touches[index].pageY);
-		context.lineWidth = 4;
+		context.arc(
+			touches[index].pageX,
+			touches[index].pageY,
+			lineWidth / 2,
+			0,
+			Math.PI * 2
+		);
+		context.lineWidth = lineWidth;
 		context.strokeStyle = lineColour;
 		context.stroke();
 	}
@@ -108,7 +115,7 @@ const handleTouchMove = (event) => {
 				ongoingTouches[identifier].pageY
 			);
 			context.lineTo(touches[index].pageX, touches[index].pageY);
-			context.lineWidth = 4;
+			context.lineWidth = lineWidth;
 			context.strokeStyle = lineColour;
 			context.stroke();
 
@@ -133,7 +140,7 @@ const handleTouchEnd = (event) => {
 				ongoingTouches[identifier].pageY
 			);
 			context.lineTo(touches[index].pageX, touches[index].pageY);
-			context.lineWidth = 4;
+			context.lineWidth = lineWidth;
 			context.strokeStyle = lineColour;
 			context.stroke();
 			ongoingTouches.splice(identifier, 1, touches[index]);
