@@ -42,10 +42,11 @@ const handleMouseDown = (event) => {
 	event.preventDefault();
 	painting = true;
 
-	context.beginPath();
-	context.arc(event.pageX, event.pageY, lineWidth / 2, 0, Math.PI * 2);
-	context.fillStyle = lineColour;
-	context.fill();
+	context.moveTo(event.pageX, event.pageY);
+	context.lineTo(event.pageX, event.pageY);
+	context.lineWidth = lineWidth;
+	context.strokeStyle = lineColour;
+	context.stroke();
 };
 
 /**
@@ -67,9 +68,10 @@ const handleMouseMove = (event) => {
  */
 const handleMouseUp = (event) => {
 	event.preventDefault();
+	context.lineTo(event.pageX, event.pageY);
 	context.lineWidth = lineWidth;
-	context.fillStyle = lineColour;
-	context.closePath();
+	context.strokeStyle = lineColour;
+	context.stroke();
 	painting = false;
 };
 
