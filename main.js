@@ -140,6 +140,7 @@ const handleTouchEnd = (event) => {
 				ongoingTouches[identifier].pageY
 			);
 			context.lineTo(touches[index].pageX, touches[index].pageY);
+			context.closePath();
 			context.lineWidth = lineWidth;
 			context.strokeStyle = lineColour;
 			context.stroke();
