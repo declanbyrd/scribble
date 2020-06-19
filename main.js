@@ -35,10 +35,9 @@ const resize = (canvas) => {
 };
 
 /**
- * 	Handles pointer down event
- * 	Will be fired when mousedown and touchstart occur.
+ * 	Draw a mark to indicate the start of a line.
  */
-const handlePointerDown = (event) => {
+const handleMouseDown = (event) => {
 	event.preventDefault();
 	painting = true;
 
@@ -50,10 +49,9 @@ const handlePointerDown = (event) => {
 };
 
 /**
- * 	Handles pointer move event
- * 	Will be fired when mousemove and touchmove occur.
+ *  Draw a line to where the to where the touch has been continued.
  */
-const handlePointerMove = (event) => {
+const handleMouseMove = (event) => {
 	if (painting) {
 		event.preventDefault();
 
@@ -65,10 +63,9 @@ const handlePointerMove = (event) => {
 };
 
 /**
- * 	Handles pointer up event
- * 	Will be fired when mouseup and touchend occur.
+ * 	When touch ends, stop drawing line.
  */
-const handlePointerUp = (event) => {
+const handleMouseUp = (event) => {
 	event.preventDefault();
 	context.lineWidth = 4;
 	context.fillStyle = lineColour;
@@ -76,6 +73,9 @@ const handlePointerUp = (event) => {
 	painting = false;
 };
 
+/**
+ * 	Draw a mark to indicate the start of a line.
+ */
 const handleTouchStart = (event) => {
 	event.preventDefault();
 	const touches = event.changedTouches;
@@ -91,6 +91,9 @@ const handleTouchStart = (event) => {
 	}
 };
 
+/**
+ *  Draw a line to where the to where the touch has been continued.
+ */
 const handleTouchMove = (event) => {
 	event.preventDefault();
 	const touches = event.changedTouches;
@@ -114,6 +117,9 @@ const handleTouchMove = (event) => {
 	}
 };
 
+/**
+ * 	When touch ends, stop drawing line.
+ */
 const handleTouchEnd = (event) => {
 	event.preventDefault();
 	const touches = event.changedTouches;
@@ -121,32 +127,24 @@ const handleTouchEnd = (event) => {
 	for (let index = 0; index < touches.length; index++) {
 		const identifier = findTouch(touches[index]);
 		if (identifier >= 0) {
-			context.lineWidth = 4;
-			context.fillStyle = lineColour;
 			context.beginPath();
 			context.moveTo(
 				ongoingTouches[identifier].pageX,
 				ongoingTouches[identifier].pageY
 			);
 			context.lineTo(touches[index].pageX, touches[index].pageY);
-			context.arc(
-				touches[index].pageX,
-				touches[index].pageY,
-				2,
-				0,
-				2 * Math.PI
-			);
-			context.fillStyle = lineColour;
-			context.fill();
+			context.lineWidth = 4;
+			context.strokeStyle = lineColour;
+			context.stroke();
 			ongoingTouches.splice(identifier, 1, touches[index]);
 		}
 	}
 };
 
 const addPointerListeners = () => {
-	canvas.addEventListener('pointerdown', handlePointerDown);
-	canvas.addEventListener('pointermove', handlePointerMove);
-	canvas.addEventListener('pointerup', handlePointerUp);
+	canvas.addEventListener('mousedown', handleMouseDown);
+	canvas.addEventListener('mousemove', handleMouseMove);
+	canvas.addEventListener('mouseup', handleMouseUp);
 };
 
 const addTouchListeners = () => {
