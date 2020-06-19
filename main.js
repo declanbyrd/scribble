@@ -43,7 +43,10 @@ const handlePointerDown = (event) => {
 	painting = true;
 
 	context.beginPath();
-	context.moveTo(event.pageX, event.pageY);
+	context.lineTo(event.pageX, event.pageY);
+	context.lineWidth = 4;
+	context.strokeStyle = lineColour;
+	context.stroke();
 };
 
 /**
